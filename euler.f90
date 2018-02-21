@@ -1,3 +1,7 @@
+module euler
+   implicit none
+
+   contains
         ! Realizado -> Alejandro !
         ! Algoritmo para calcular Euler !
         subroutine Euler(N,dt,PosMat,VelMat,ForceMat,Pot_En)
@@ -20,3 +24,5 @@
                         VelMat(ii,:) = VelMat(ii,:) + MatForce(ii,:)*dt
                 end do
         end subroutine
+
+end module euler

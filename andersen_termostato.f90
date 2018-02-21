@@ -1,3 +1,7 @@
+module andersen
+   implicit none
+
+   contains
         ! Realizado -> Víctor, Revisado -> Sergio !
         ! Termostato de Andersen !
         subroutine Andersen(N_atoms,A_Prob,Velocities_mat,Tinst)
@@ -21,3 +25,5 @@
                 end do
                 end if
         end subroutine
+
+end module andersen

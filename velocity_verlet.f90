@@ -1,3 +1,7 @@
+module velocity_verlet
+   implicit none
+
+   contains
         ! Realizado -> Cristian !
         ! Algoritmo para Velocity Verlet !
         subroutine velocity_verlet(N,dt,PosMat,VelMat,ForceMat,Pot_En)
@@ -21,3 +25,5 @@
                         ForceMat(ii,:) = NewForceMat(ii,:)
                 end do
         end subroutine
+
+end module velocity_verlet
