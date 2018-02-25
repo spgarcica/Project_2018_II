@@ -39,31 +39,11 @@ MODULE rdf
                                 Current_R = (iP-1)*dR
                                 Next_R = Current_R + dR
                                 Vol = (4.0d0/3.0d0)*pi*((Next_R**3)-(Current_R**3))
-                                HistProfile(iP) = HistProfile(iP)/(Vol*Density)
-                                HistProfile(iP) = HistProfile(iP)/(HistCount*N)
+                                HistProfile(iP) = HistProfile(iP)/(Vol*Density*N*Nsteps)
                                 write(2,*) (iP-0.5)*dR, HistProfile(iP)
                        end do
                        close(2)
                 end if
-        end subroutine
-
-        !--------------------------------------------------------------------------!
-        !             Subroutine that corrects the units of the g(r)               !
-        !--------------------------------------------------------------------------!
-        subroutine rdf_correct(NHist)
-                implicit none
-                integer, intent(in) :: NHist
-                integer :: ii
-                real, dimension(NHist) :: gdr_Vec, Hist_Vec
-
-                open(24,file='g_function.txt')
-                open(25,file='g_function_corrected.txt')
-                do ii = 1,NHist
-                        read(24,*) gdr_Vec(ii), Hist_Vec(ii)
-                        write(25,*) gdr_Vec(ii)*S_Constant, Hist_Vec(ii)
-                end do
-                close(24)
-                close(25)
         end subroutine
 END MODULE rdf
 
