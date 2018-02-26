@@ -1,5 +1,6 @@
-MODULE rdf
-   implicit none
+MODULE rdfmod
+
+use pbcmod
 
    contains
         !-------------------------------------------------------------------------------!
@@ -22,13 +23,12 @@ MODULE rdf
                                 dr_vec(1) = PosMat(iA,1) - PosMat(jA,1)
                                 dr_vec(2) = PosMat(iA,2) - PosMat(jA,2)
                                 dr_vec(3) = PosMat(iA,3) - PosMat(jA,3)
-                                call pbc(dR_vec,1,L_intend)
+                                call pbc(dR_vec,1,L)
 
                                 R = sqrt(dR_vec(1)*dR_vec(1)+dR_vec(2)*dR_vec(2)+dR_vec(3)*dR_vec(3))
                                 if (R .lt. L) then
                                         iP = int(r/dr) + 1
                                         HistProfile(iP) = HistProfile(iP) + 1.0
-                                        HistCount = HistCount + 1
                                 end if
                         end do
                 end do
@@ -39,11 +39,11 @@ MODULE rdf
                                 Current_R = (iP-1)*dR
                                 Next_R = Current_R + dR
                                 Vol = (4.0d0/3.0d0)*pi*((Next_R**3)-(Current_R**3))
-                                HistProfile(iP) = HistProfile(iP)/(Vol*Density*N*Nsteps)
+                                HistProfile(iP) = (2*HistProfile(iP))/(Vol*Density*N*Nsteps)
                                 write(2,*) (iP-0.5)*dR, HistProfile(iP)
                        end do
                        close(2)
                 end if
         end subroutine
-END MODULE rdf
+END MODULE rdfmod
 

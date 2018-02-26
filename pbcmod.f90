@@ -1,6 +1,4 @@
-MODULE pbc
-   implicit none
-
+MODULE pbcmod
    contains
         !--------------------------------------------------------------------------!
         ! Function to correct the pbc subroutine when the length the atom has      !
@@ -53,4 +51,4 @@ MODULE pbc
                 coord(:,2) = y
                 coord(:,3) = z
         end subroutine
-END MODULE pbc
+END MODULE pbcmod
