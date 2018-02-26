@@ -5,7 +5,7 @@ program MMDyn
         use rdfmod
         use LJ_forcemod
         use eulermod
-        use vverletmod
+        use velocity_verletmod
         use andersenmod
         use gaussmod
         use geommod
@@ -16,7 +16,7 @@ program MMDyn
         use stdmod 
         implicit none
         integer :: M, N_atoms, Seed, NSteps, NSta
-        real :: Density, Cutoff, L_Box, dt, A_box, Sigma, Temp, Pot_En, Pressure
+        real :: Density, Cutoff, L_Box, L_Intend, dt, A_box, Sigma, Temp, Pot_En, Pressure
         real :: E_Constant, S_Constant, M_Constant, C_U, A_Prob, CO_R, dr
         real, dimension(:,:), allocatable :: Position_mat, Velocity_mat, Force_Mat
         real, dimension(2) :: Time
@@ -47,10 +47,10 @@ program MMDyn
         print *, 'All work done in:', Time(2)-Time(1), 's'
  
         contains 
+        ! Realizado -> Sergio !
         !Subrutina donde se especifica al programa lo que se desea hacer y se le aportan los parámetros necesarios!
         subroutine Read_file(filename)
                 implicit none
-                real, public :: L_Intend
                 character(9), intent(in) :: filename
 
                 open(unit=25, file=filename, form='formatted', status='old')
@@ -75,6 +75,7 @@ program MMDyn
                 close(25)
         end subroutine
 
+        ! Realizado -> Sergio, Revisado -> Todos !
         ! Esta es la subrutina principal, se encarga de realizar la dinámica con los datos    !
         ! introducidos y de guardar los archivos, también corrije las unidades y calcula g(r) !
         subroutine Reaper(N_atoms,NSteps,NSta,Position_mat,Velocity_mat,Force_Mat,Integrator)

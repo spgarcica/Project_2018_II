@@ -1,10 +1,8 @@
 module AndersenMod
+   use normaldist 
    use mtmod
    implicit none
-
    contains
-        ! Realizado -> Víctor, Revisado -> Sergio !
-        ! Termostato de Andersen !
         subroutine Andersen(N_atoms,A_Prob,Velocities_mat,Tinst)
                 implicit none
                 real, dimension(N_atoms,3), intent(inout) :: Velocities_mat
