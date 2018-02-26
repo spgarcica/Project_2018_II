@@ -47,7 +47,6 @@ program MMDyn
         print *, 'All work done in:', Time(2)-Time(1), 's'
  
         contains 
-        ! Realizado -> Sergio !
         !Subrutina donde se especifica al programa lo que se desea hacer y se le aportan los parámetros necesarios!
         subroutine Read_file(filename)
                 implicit none
@@ -76,7 +75,6 @@ program MMDyn
                 close(25)
         end subroutine
 
-        ! Realizado -> Sergio, Revisado -> Todos !
         ! Esta es la subrutina principal, se encarga de realizar la dinámica con los datos    !
         ! introducidos y de guardar los archivos, también corrije las unidades y calcula g(r) !
         subroutine Reaper(N_atoms,NSteps,NSta,Position_mat,Velocity_mat,Force_Mat,Integrator)
