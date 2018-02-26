@@ -1,4 +1,5 @@
-module andersen
+module AndersenMod
+   use mtmod
    implicit none
 
    contains
@@ -26,4 +27,4 @@ module andersen
                 end if
         end subroutine
 
-end module andersen
+end module
