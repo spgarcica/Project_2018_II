@@ -1,6 +1,5 @@
 module geommod
 contains
-        ! Realizado -> Alejandro !
         !Subrutina que genera la geometria inicial del sistema que corresponde a una estructura cúbica simple!
         subroutine GenGeom(M,Density,CO_R,Position_mat,N_atoms,aa,L_box,Velocity_mat,fuerza,Cutoff)
                 implicit none
