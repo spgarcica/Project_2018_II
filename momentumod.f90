@@ -1,6 +1,6 @@
 module momentumod
 contains
-        ! Realizado -> Alejandro: Calcula la energía potencial a partir de la matriz de velocidades !
+        ! Subrutina que calcula la energía cinética !
 	real function Kinetic_E(N_atoms,Velocity_mat)
                 implicit none
                 !En unidades reducidas la massa es 1!
@@ -17,7 +17,7 @@ contains
         Kinetic_E = 0.5*Kinetic_E
         end function
 
-        ! Realizado -> Alejandro: Calcula el momento a partir de la matriz de velocidades !
+        ! Subrutina para calcular el momento !
 	real function P_total(N_atoms, Velocity_mat)
                 implicit none
 	            real, dimension(N_atoms,3), intent(in) :: Velocity_mat

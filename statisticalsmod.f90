@@ -1,7 +1,6 @@
 module statisticalsmod
 use stdmod
 contains
-        ! Realizado -> Sergio, Revisado -> Alejandro, Victor !
         ! Esta subrutina calcula la desviación estándar de la velocidad !
         ! Para ello lee un archivo con los xyz de la velocidad y trata  !
         ! los datos. Nótese que se necesita saber el promedio.          !
