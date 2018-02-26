@@ -28,7 +28,6 @@ MODULE rdf
                                 if (R .lt. L) then
                                         iP = int(r/dr) + 1
                                         HistProfile(iP) = HistProfile(iP) + 1.0
-                                        HistCount = HistCount + 1
                                 end if
                         end do
                 end do
@@ -39,7 +38,7 @@ MODULE rdf
                                 Current_R = (iP-1)*dR
                                 Next_R = Current_R + dR
                                 Vol = (4.0d0/3.0d0)*pi*((Next_R**3)-(Current_R**3))
-                                HistProfile(iP) = HistProfile(iP)/(Vol*Density*N*Nsteps)
+                                HistProfile(iP) = (2*HistProfile(iP))/(Vol*Density*N*Nsteps)
                                 write(2,*) (iP-0.5)*dR, HistProfile(iP)
                        end do
                        close(2)
