@@ -2,8 +2,9 @@ module eulermod
 use pbcmod
 use LJ_forcemod
    contains
-        ! Realizado -> Alejandro !
-        ! Algoritmo para calcular Euler !
+        !-----------------------------------------------------------------------------------------!
+        !                         Implementation of the Euler algorithm                           !
+	!-----------------------------------------------------------------------------------------!
         subroutine Euler(N,dt,PosMat,VelMat,ForceMat,Pot_En,Cutoff,C_U,Pressure,L_Intend)
                 implicit none
                 integer, intent(in) :: N

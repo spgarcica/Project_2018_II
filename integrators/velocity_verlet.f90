@@ -2,8 +2,9 @@ module velocity_verletmod
    use pbcmod
    use LJ_forcemod
    contains
-        ! Realizado -> Cristian !
-        ! Algoritmo para Velocity Verlet !
+        !------------------------------------------------------------------------------------------!
+        !                       Implementation of the Velocity Verlet algorithm                    !
+        !------------------------------------------------------------------------------------------!
         subroutine velocity_verlet(N,dt,PosMat,VelMat,ForceMat,Pot_En,Cutoff,C_U,Pressure,L_Intend)
                 implicit none
                 integer :: ii
