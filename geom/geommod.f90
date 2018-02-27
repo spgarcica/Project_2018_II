@@ -1,6 +1,8 @@
 module geommod
 contains
-        !Subrutina que genera la geometria inicial del sistema que corresponde a una estructura cúbica simple!
+        !----------------------------------------------------------------------------------------------------!
+	!  Subroutine that generates a crystalline structure (simple cubic structure) as an initial geometry ! 
+	!----------------------------------------------------------------------------------------------------!
         subroutine GenGeom(M,Density,CO_R,Position_mat,N_atoms,aa,L_box,Velocity_mat,fuerza,Cutoff)
                 implicit none
                 integer, intent(in) :: M
