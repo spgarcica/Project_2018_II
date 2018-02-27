@@ -11,7 +11,7 @@ def Round2(value):
 
 velocities = []
 n = 0
-with open('velocities', 'r') as file:
+with open('testvel', 'r') as file:
 
     for line in file:
         n += 1
