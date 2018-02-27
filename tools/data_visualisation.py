@@ -40,7 +40,7 @@ Epot = []
 Ekin = []
 Etot = []
 
-with open("temp_res.xyz", 'r') as data:
+with open("ener.xyz", 'r') as data:
     for line in data:
         words = line.split()
         try:
