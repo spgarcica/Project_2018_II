@@ -1,7 +1,9 @@
 module initial_velocitymod
 use mtmod
 contains
-        !Subrutina que genera las velocidades iniciales, estan uniformemente distribuidas entre ± Sigma!	
+        !----------------------------------------------------------------------------------------------!
+        !       Subroutine that generates normally distributed (around ± Sigma) inicial velocities     !
+        !----------------------------------------------------------------------------------------------!	
         subroutine Initial_Velocity(N_atoms,Sigma,Velocity_mat)
                 implicit none
                 integer, intent(in) :: N_atoms
