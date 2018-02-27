@@ -64,7 +64,11 @@ plt.plot(x_list, Ekin, label="Kinectic Energy: %i (%i))"%(Bin_Analysis(Ekin)))
 plt.plot(x_list, Epot, label="Potential Energy: %i (%i))"%(Bin_Analysis(Epot)))
 plt.legend()
 
+
+
 plt.title('Visualisation of Energies, values given are average of last 40% with 95% certainty interval')
 plt.xlabel('time (s)')
 plt.ylabel('Energy (au)')
+
+plt.savefig('energies.png', bbox_inches='tight')
 plt.show()
