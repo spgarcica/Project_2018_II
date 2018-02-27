@@ -157,7 +157,7 @@ program MMDyn
                         Pressure_Mat(Counter1) = (Pressure/(3*L_Intend**3)+Density*Temp)*(E_Constant/(S_Constant**3))
                         KE_Mat(Counter1) = Kinetic_E(N_atoms,Velocity_mat)*E_Constant
                         PE_Mat(Counter1) = Pot_En*E_Constant
-                        Temperature_Mat(Counter1) = (2*KE_Mat(Counter1)/(3.*N_atoms))*(E_constant/Boltz)
+                        Temperature_Mat(Counter1) = (2*KE_Mat(Counter1)/(3.*N_atoms))*(E_constant*120.27)
                         Temperature = Temperature + Temperature_Mat(Counter1)
 
                         write(28,*) Temperature_Mat(Counter1)
@@ -177,7 +177,7 @@ program MMDyn
                 
                 ! Printing all the results with their standard deviation !
                 print *, 'Average Temperature (Reduced units)'
-                print *,  Temperature/NSteps*E_Constant/Boltz, '+-', Sdeviation(NSteps,Temperature_Mat*E_Constant/Boltz,NSteps)
+                print *,  Temperature/NSteps, '+-', Sdeviation(NSteps,Temperature_Mat,NSteps)
                 print *, 'Average Pressure'
                 print *,  sum(Pressure_Mat)/NSteps, '+-', Sdeviation(NSteps,Pressure_Mat,Nsteps)
                 print *, 'Average Kinetic Energy'
