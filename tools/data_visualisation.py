@@ -72,7 +72,7 @@ plt.ylabel('Energy (reduced units)')
 
 plt.savefig('energies.png', bbox_inches='tight')
 #plt.show()
-
+plt.clf()
 
 #'''
 # Plot Temperature
@@ -85,8 +85,8 @@ plt.ylabel('Temperature (K)')
 
 plt.savefig('temperature.png', bbox_inches='tight')
 #plt.show()
+plt.clf()
 #'''
-
 
 #'''
 # Plot Pressure
@@ -99,4 +99,5 @@ plt.ylabel('Pressure (au)')
 
 plt.savefig('pressure.png', bbox_inches='tight')
 #plt.show()
+plt.clf()
 #'''
