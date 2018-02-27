@@ -84,6 +84,7 @@ program MMDyn
         subroutine Reaper(N_atoms,NSteps,NSta,Position_mat,Velocity_mat,Force_Mat,Integrator)
                 implicit none
                 integer, intent(in) :: N_atoms, NSteps, NSta
+                integer(8) :: HistCount
                 character(3), intent(in) :: Integrator
                 real, dimension(N_atoms,3), intent(inout) :: Position_mat, Velocity_mat, Force_Mat
                 integer :: Counter1, Counter2, Counter3, NHist
@@ -126,6 +127,7 @@ program MMDyn
                 open(unit=25, file='traj.xyz', form='formatted', status='unknown')
                 open(unit=26, file='ener.xyz', form='formatted', status='unknown')
                 open(unit=27, file='testvel', form='formatted', status='unknown')
+                open(unit=28, file='temperature.data', form='formatted', status='unknown')
                 write(26,FMT="(A14,A17,A17,A17,A17,A17)") &
                         'Time', 'Total momentum', 'Pressure', 'Potential Enenergy', 'Kin Energy', 'Total Energy'
 
@@ -158,6 +160,8 @@ program MMDyn
                         Temperature_Mat(Counter1) = (2*KE_Mat(Counter1)/(3.*N_atoms))*(E_constant/Boltz)
                         Temperature = Temperature + Temperature_Mat(Counter1)
 
+                        write(28,*) Temperature_Mat(Counter1)
+
                         write(26,*) Counter1*sqrt(E_Constant/(M_Constant*S_Constant**2)),&
                                 p_total(N_atoms,Velocity_mat)*sqrt(M_Constant*E_Constant),&
                                 Pressure_Mat(Counter1), Pot_En,KE_Mat(Counter1), Pot_En+KE_Mat(Counter1)
@@ -173,7 +177,7 @@ program MMDyn
                 
                 ! Printing all the results with their standard deviation !
                 print *, 'Average Temperature (Reduced units)'
-                print *,  Temperature/NSteps*Boltz/E_Constant, '+-', Sdeviation(NSteps,Temperature_Mat*Boltz/E_Constant,NSteps)
+                print *,  Temperature/NSteps*E_Constant/Boltz, '+-', Sdeviation(NSteps,Temperature_Mat*E_Constant/Boltz,NSteps)
                 print *, 'Average Pressure'
                 print *,  sum(Pressure_Mat)/NSteps, '+-', Sdeviation(NSteps,Pressure_Mat,Nsteps)
                 print *, 'Average Kinetic Energy'
