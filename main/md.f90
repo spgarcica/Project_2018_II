@@ -187,12 +187,6 @@ program MMDyn
                 close(26)
                 close(27)
 
-                ! Binning the data to improve the standard deviation calculations !
-                call Binning(NSteps,Pressure_Mat,'pressu') 
-                call Binning(NSteps,Temperature_Mat,'temper') 
-                call Binning(NSteps,KE_Mat,'kineti') 
-                call Binning(NSteps,PE_Mat,'potent') 
-
                 Vel_Aver = Vel_Aver/(N_atoms*NSteps)
                 print *, 'Calculating SD of velocities...'
                 call SD_Calculator(N_Atoms*NSteps,'testvel',Vel_Aver,SD_Value)
