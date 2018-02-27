@@ -1,7 +1,10 @@
 module LJ_forcemod
 
 contains
-        ! Subrutina que proporciona una matriz con la fuerza que actua en cada partícula y la energia potencial !
+        !------------------------------------------------------------------------------------------------------!
+        !  Subroutine that provides a matrix with the forces that operate in each particle and the potential   ! 
+        !  energy.                                                                                             !
+        !------------------------------------------------------------------------------------------------------!
         subroutine LJ_force(N_atoms,Position_mat,Force_Mat,Pot_En,Cutoff,C_U,Pressure,L_Intend)
                implicit none
                integer, intent(in) :: N_atoms
