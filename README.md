@@ -73,6 +73,7 @@ make plot
 To represent the dynamic you need a visualization program. For example:
 * **VMD:** http://www.ks.uiuc.edu/Research/vmd/
 * **wxMacMolPlt**: https://brettbode.github.io/wxmacmolplt/downloads.html
+The xyz coordinates are stored at **traj.xyz** file.
 
 ## Authors
 * Alejandro C. - *Initial geometry and makefile*
