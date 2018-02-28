@@ -16,10 +16,16 @@ VV = $(shell find -name '*velocity_verlet.f90')
 EULER = $(shell find -name '*eulermod.f90')
 MAIN = $(shell find -name '*md.f90')
 PARAM = $(shell find -name '*param.dat')
-DATA = traj.xyz ener.xyz testvel gauss.dat temperature.dat g_function.txt
-SCRIPT_PYTHON = $(shell find -name '*.py')
+DATA = ener.xyz gauss.dat g_function.txt temperature.data testvel traj.xyz
+DATA_SCRIPT_PYTHON = ener.xyz
+DATA_SCRIPT_PYTHON_DIST_VEL = testvel
+DATA_SCRIPT_GNUPLOT = g_function.txt
+SCRIPT_PYTHON = $(shell find -name '*data_visualisation.py')
+SCRIPT_PYTHON_DIST_VEL = $(shell find -name '*velocities_distribution.py')
 SCRIPT_GNUPLOT = $(shell find -name '*.gnuplot')
-FIGURE = RDF.eps
+FIGURE_SCRIPT_PYTHON = energies.png temperature.png pressure.png
+FIGURE_SCRIPT_PYTHON_DIST_VEL = velocity_distribution.png
+FIGURE_SCRIPT_GNUPLOT = RDF.eps
 TARGET = md
 
 
@@ -47,8 +53,13 @@ $(TARGET).o : $(CODE)
 $(DATA) : $(TARGET) $(PARAM)
 	./$(TARGET)
 
-$(FIGURE) : $(DATA) $(SCRIPT_PYTHON) $(SCRIPT_GNUPLOT)
+$(FIGURE_SCRIPT_PYTHON) : $(DATA_SCRIPT_PYTHON) $(SCRIPT_PYTHON)
 	python2 $(SCRIPT_PYTHON)
+
+$(FIGURE_SCRIPT_PYTHON_DIST_VEL) : $(DATA_SCRIPT_PYTHON_DIST_VEL) $(SCRIPT_PYTHON_DIST_VEL)
+	python2 $(SCRIPT_PYTHON_DIST_VEL)
+
+$(FIGURE_SCRIPT_GNUPLOT) : $(DATA_SCRIPT_GNUPLOT) $(SCRIPT_GNUPLOT)
 	gnuplot $(SCRIPT_GNUPLOT)
 
 ## datum : generate data files about MD simulation
@@ -57,7 +68,7 @@ datum : $(DATA)
 
 ## plot : generate figures about various magnitudes of interest in MD
 .PHONY : plot
-plot : $(FIGURE)
+plot : $(FIGURE_SCRIPT_PYTHON) $(FIGURE_SCRIPT_PYTHON_DIST_VEL) $(FIGURE_SCRIPT_GNUPLOT)
 
 ## compilation : compilation of the program
 .PHONY : compilation
@@ -85,9 +96,15 @@ variables :
 	@echo MAIN:$(MAIN)
 	@echo PARAM:$(PARAM)
 	@echo DATA:$(DATA)
+	@echo DATA_SCRIPT_PYTHON:$(DATA_SCRIPT_PYTHON)
+	@echo DATA_SCRIPT_PYTHON_DIST_VEL:$(DATA_SCRIPT_PYTHON_DIST_VEL)
+	@echo DATA_SCRIPT_GNUPLOT:$(DATA_SCRIPT_GNUPLOT)
 	@echo SCRIPT_PYTHON:$(SCRIPT_PYTHON)
+	@echo SCRIPT_PYTHON_DIST_VEL:$(SCRIPT_PYTHON_DIST_VEL)
 	@echo SCRIPT_GNUPLOT:$(SCRIPT_GNUPLOT)
-	@echo FIGURE:$(FIGURE)
+	@echo FIGURE_SCRIPT_PYTHON:$(FIGURE_SCRIPT_PYTHON)
+	@echo FIGURE_SCRIPT_PYTHON_DIST_VEL:$(FIGURE_SCRIPT_PYTHON_DIST_VEL)
+	@echo FIGURE_SCRIPT_GNUPLOT:$(FIGURE_SCRIPT_GNUPLOT)
 	@echo TARGET:$(TARGET)
 
 ## clean : remove auto-generated files
@@ -96,8 +113,10 @@ clean :
 	rm -f *.o
 	rm -f *.mod
 	rm -f $(DATA)
+	rm -f $(FIGURE_SCRIPT_PYTHON)
+	rm -f $(FIGURE_SCRIPT_PYTHON_DIST_VEL)
+	rm -f $(FIGURE_SCRIPT_GNUPLOT)
 	rm -f $(TARGET)
-	rm -f *.eps
 
 ## help : provide some instructions useful to use the makefile
 .PHONY : help
