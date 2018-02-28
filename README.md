@@ -1,4 +1,4 @@
-# Project_2018_II
+# Molecular Dynamics Simulation Program [Project 2018 EIA (II)]
 
 ## How to compile it?
 A Makefile has been created to make the work easier. When the make is called:
