@@ -1,6 +1,8 @@
 module stdmod
 contains
-        ! Reutilizado de otro programa: Calcula la Desviación Estándar !
+        !-----------------------------------------------------------------------!
+        !            Subroutine that calculates the standard deviation          !
+        !-----------------------------------------------------------------------!
         real function Sdeviation(Nsize,vec,NSteps)
                  implicit none
                  integer, intent(in) :: Nsize, NSteps
