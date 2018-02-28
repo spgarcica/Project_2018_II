@@ -30,7 +30,6 @@ If you have an installation of git in your computer you can clone this repositor
 ```
 git clone https://github.com/EIA-Master/Project_2018_II
 ```
-We are working now with the **Tidy** branch, so is needed to change the branch to work with the proper files:
 You can also download a .zip with the code of this Branch using the GitHub download button.
 ### How to compile it?
 A Makefile has been created to make the work easier. When the make is called using the command:
