@@ -146,7 +146,7 @@ program MMDyn
                         write(25,*) N_atoms
                         write(25,*) ''
                         do Counter2=1, N_atoms
-                                write(25,*) 'Ar', Position_mat(Counter2,:)*S_constant
+                                write(25,*) 'He', Position_mat(Counter2,:)*S_constant
                         end do
 
                         call rdf(Position_mat,N_atoms,dr,NHist,L_intend,Counter1,Nsteps,Density,HistProfile,HistCount)
