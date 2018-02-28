@@ -107,7 +107,7 @@ variables :
 	@echo FIGURE_SCRIPT_GNUPLOT:$(FIGURE_SCRIPT_GNUPLOT)
 	@echo TARGET:$(TARGET)
 
-## clean : remove ALL auto-generated files including output
+## hardclean : remove ALL auto-generated files including output
 .PHONY : hardclean
 hardclean :
 	@rm -f *.o
