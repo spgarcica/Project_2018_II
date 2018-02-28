@@ -33,12 +33,13 @@ def Bin_Analysis( array):
 
 # Read in Energies and Momenta
 
-time = []
-Ptot = []
-Press= []
-Epot = []
-Ekin = []
-Etot = []
+time = []   # time in units of frame
+Ptot = []   # total Momentum
+Press= []   # Pressure
+Temp = []   # Temperature
+Epot = []   # potential Energy
+Ekin = []   # kinetic Energy
+Etot = []   # total Energy
 
 with open("ener.xyz", 'r') as data:
     for line in data:
@@ -48,6 +49,7 @@ with open("ener.xyz", 'r') as data:
             time.append(words[0])
             Ptot.append(words[1])
             Press.append(words[2])
+            Temp.append(words[3])
             Epot.append(words[3])
             Ekin.append(words[4])
             Etot.append(words[5])
@@ -64,11 +66,38 @@ plt.plot(x_list, Ekin, label="Kinectic Energy: %i (%i))"%(Bin_Analysis(Ekin)))
 plt.plot(x_list, Epot, label="Potential Energy: %i (%i))"%(Bin_Analysis(Epot)))
 plt.legend()
 
-
-
 plt.title('Visualisation of Energies, values given are average of last 40% with 95% certainty interval')
-plt.xlabel('time (s)')
-plt.ylabel('Energy (au)')
+plt.xlabel('time (freme)')
+plt.ylabel('Energy (reduced units)')
 
 plt.savefig('energies.png', bbox_inches='tight')
-plt.show()
+#plt.show()
+plt.clf()
+
+#'''
+# Plot Temperature
+x_list = time
+plt.plot(x_list, Temp)
+
+plt.title('Temperature, equalizes at: %i (%i)'%(Bin_Analysis(Temp)))
+plt.xlabel('time (frame)')
+plt.ylabel('Temperature (K)')
+
+plt.savefig('temperature.png', bbox_inches='tight')
+#plt.show()
+plt.clf()
+#'''
+
+#'''
+# Plot Pressure
+x_list = time
+plt.plot(x_list, Press)
+
+plt.title('Pressure, equalizes at: %i (%i)'%(Bin_Analysis(Press)))
+plt.xlabel('time (frame)')
+plt.ylabel('Pressure (au)')
+
+plt.savefig('pressure.png', bbox_inches='tight')
+#plt.show()
+plt.clf()
+#'''
