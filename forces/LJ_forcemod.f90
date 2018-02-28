@@ -25,7 +25,7 @@ contains
                        do jjj=iii+1, N_Atoms
                                Distance_vec = Position_mat(iii,:)-Position_mat(jjj,:)
                                Distance_2 = Distance_vec(1) ** 2 + Distance_vec(2) ** 2 + Distance_vec(3) ** 2
-                               ! Si la distancia es demasiado grande imponemos condiciones de imagen mínima !
+                               ! If the distance is too high, minumum image conditions are imposed !
                                if (sqrt(Distance_2) > Cutoff) then
                                        do kkk=1, 3
                                                Dist_Aux = Position_mat(iii,kkk) - Position_mat(jjj,kkk)
