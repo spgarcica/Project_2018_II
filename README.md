@@ -31,9 +31,6 @@ If you have an installation of git in your computer you can clone this repositor
 git clone https://github.com/EIA-Master/Project_2018_II
 ```
 We are working now with the **Tidy** branch, so is needed to change the branch to work with the proper files:
-```
-git checkout Tidy
-```
 You can also download a .zip with the code of this Branch using the GitHub download button.
 ### How to compile it?
 A Makefile has been created to make the work easier. When the make is called using the command:
@@ -73,6 +70,9 @@ If you want to plot the output you need to execute the following command:
 ```
 make plot
 ```
+To represent the dynamic you need a visualization program. For example:
+**VMD:** http://www.ks.uiuc.edu/Research/vmd/
+**wxMacMolPlt**: https://brettbode.github.io/wxmacmolplt/downloads.html
 
 ## Authors
 * Alejandro C. - *Initial geometry and makefile*
