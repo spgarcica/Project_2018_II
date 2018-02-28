@@ -107,16 +107,24 @@ variables :
 	@echo FIGURE_SCRIPT_GNUPLOT:$(FIGURE_SCRIPT_GNUPLOT)
 	@echo TARGET:$(TARGET)
 
-## clean : remove auto-generated files
+## clean : remove ALL auto-generated files including output
+.PHONY : hardclean
+hardclean :
+	@rm -f *.o
+	@rm -f *.mod
+	@rm -f $(DATA)
+	@rm -f $(FIGURE_SCRIPT_PYTHON)
+	@rm -f $(FIGURE_SCRIPT_PYTHON_DIST_VEL)
+	@rm -f $(FIGURE_SCRIPT_GNUPLOT)
+	@rm -f $(TARGET)
+	@echo 'All files have been removed'
+
+## clean : remove auto-generated compilation files
 .PHONY : clean
 clean :
-	rm -f *.o
-	rm -f *.mod
-	rm -f $(DATA)
-	rm -f $(FIGURE_SCRIPT_PYTHON)
-	rm -f $(FIGURE_SCRIPT_PYTHON_DIST_VEL)
-	rm -f $(FIGURE_SCRIPT_GNUPLOT)
-	rm -f $(TARGET)
+	@rm -f *.o
+	@rm -f *.mod
+	@echo 'Compilation files removed'
 
 ## help : provide some instructions useful to use the makefile
 .PHONY : help
