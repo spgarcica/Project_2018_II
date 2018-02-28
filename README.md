@@ -71,8 +71,8 @@ If you want to plot the output you need to execute the following command:
 make plot
 ```
 To represent the dynamic you need a visualization program. For example:
-**VMD:** http://www.ks.uiuc.edu/Research/vmd/
-**wxMacMolPlt**: https://brettbode.github.io/wxmacmolplt/downloads.html
+* **VMD:** http://www.ks.uiuc.edu/Research/vmd/
+* **wxMacMolPlt**: https://brettbode.github.io/wxmacmolplt/downloads.html
 
 ## Authors
 * Alejandro C. - *Initial geometry and makefile*
