@@ -79,4 +79,4 @@ make plot
 * Cristian P. - *Integrators and Andersen implementation*
 * Erika F. - *GDR implementation and PBC*
 * Zazo M. - *Statistical analysis and plotting*
-* Sergio S. - *GitHub management, Main program and Lennard Jones implementation.*
+* Sergio G. - *GitHub management, Main program and Lennard Jones implementation.*
