@@ -75,6 +75,10 @@ To represent the dynamic you need a visualization program. For example:
 
 The xyz coordinates are stored at **traj.xyz** file.
 
+## Template
+
+There is a template for a dynamic with Helium at 300K and 1atm at template folder.
+
 ## Authors
 * Alejandro C. - *Initial geometry and makefile*
 * Cristian P. - *Integrators and Andersen implementation*
