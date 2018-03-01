@@ -1,0 +1,8 @@
+M     Density       Cutoff Ratio  Time Delta  Seed  Sigma  Temp
+5     0.000003      0.5           0.01        350     1.  27.97
+
+Nsteps     NStabilize     Sigma (LJ)     E (LJ)    M (LJ)  Andersen Prob    
+10000      5000           0.148          0.089     2.0     0.01
+
+[Eul]er or [Ver]let   dr size (g(r))
+Ver                   0.1
