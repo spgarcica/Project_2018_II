@@ -49,7 +49,6 @@ with open("ener.xyz", 'r') as data:
             time.append(words[0])
             Ptot.append(words[1])
             Press.append(words[2])
-            Temp.append(words[3])
             Epot.append(words[3])
             Ekin.append(words[4])
             Etot.append(words[5])
@@ -57,6 +56,15 @@ with open("ener.xyz", 'r') as data:
         except:
             pass
 
+with open("temperature.data", 'r') as data:
+    for line in data:
+        words = line.split()
+        try:
+            words = [float(words[i]) for i in range(len(words))]
+            Temp.append(words[0])
+            
+        except:
+            pass
 
 
 # Plot Energies
@@ -81,7 +89,7 @@ plt.plot(x_list, Temp)
 
 plt.title('Temperature, equalizes at: %i (%i)'%(Bin_Analysis(Temp)))
 plt.xlabel('time (frame)')
-plt.ylabel('Temperature (K)')
+plt.ylabel('Temperature (R.U)')
 
 plt.savefig('temperature.png', bbox_inches='tight')
 #plt.show()

@@ -91,7 +91,7 @@ program MMDyn
                 real :: Pot_En, Temperature
                 real, dimension(NSteps) :: Pressure_Mat, Temperature_Mat, KE_Mat, PE_Mat
                 real, dimension(3) :: Vel_Aver, SD_Value
-                real, parameter :: Boltz=1.38064852E-23
+                real, parameter :: Boltz=1.38064852E-23, Avogadro=6.022140857E23
                 real, dimension(:), allocatable :: HistProfile
                 procedure (), pointer :: Int_Type => null()
 
@@ -157,7 +157,7 @@ program MMDyn
                         Pressure_Mat(Counter1) = (Pressure/(3*L_Intend**3)+Density*Temp)*(E_Constant/(S_Constant**3))
                         KE_Mat(Counter1) = Kinetic_E(N_atoms,Velocity_mat)*E_Constant
                         PE_Mat(Counter1) = Pot_En*E_Constant
-                        Temperature_Mat(Counter1) = (2*KE_Mat(Counter1)/(3.*N_atoms))*(E_constant*120.27)
+                        Temperature_Mat(Counter1) = (2*KE_Mat(Counter1)/(3.*N_atoms))*(E_constant/Avogadro*1000/Boltz)
                         Temperature = Temperature + Temperature_Mat(Counter1)
 
                         write(28,*) Temperature_Mat(Counter1)
