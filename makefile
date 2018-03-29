@@ -15,6 +15,7 @@ LJ = $(shell find -name '*LJ_forcemod.f90')
 VV = $(shell find -name '*velocity_verlet.f90')
 EULER = $(shell find -name '*eulermod.f90')
 MAIN = $(shell find -name '*md.f90')
+MPICHECK = $(shell find -name '*CheckMPI.f90')
 PARAM = $(shell find -name '*param.dat')
 DATA = ener.xyz gauss.dat g_function.txt temperature.data testvel traj.xyz
 DATA_SCRIPT_PYTHON = ener.xyz
@@ -30,25 +31,25 @@ TARGET = md
 
 
 $(TARGET) : $(TARGET).o
-	gfortran -o $(TARGET) *.o -O3
+	mpifort -o $(TARGET) *.o -O3
 
 $(TARGET).o : $(CODE)
-	gfortran -c $(MTMOD)
-	gfortran -c $(NORMALDIST)
-	gfortran -c $(MOMENTUMOD)
-	gfortran -c $(I_VEL)
-	gfortran -c $(ANDERSEN)
-	gfortran -c $(REPAIR)
-	gfortran -c $(GEOMMOD)
-	gfortran -c $(PBCMOD)
-	gfortran -c $(GAUSS)
-	gfortran -c $(STD)
-	gfortran -c $(STATISTIC)
-	gfortran -c $(RDF)
-	gfortran -c $(LJ)
-	gfortran -c $(VV)
-	gfortran -c $(EULER)
-	gfortran -c $(MAIN)
+	mpifort -c $(MTMOD)
+	mpifort -c $(NORMALDIST)
+	mpifort -c $(MOMENTUMOD)
+	mpifort -c $(I_VEL)
+	mpifort -c $(ANDERSEN)
+	mpifort -c $(REPAIR)
+	mpifort -c $(GEOMMOD)
+	mpifort -c $(PBCMOD)
+	mpifort -c $(GAUSS)
+	mpifort -c $(STD)
+	mpifort -c $(STATISTIC)
+	mpifort -c $(LJ)
+	mpifort -c $(VV)
+	mpifort -c $(EULER)
+	mpifort -c $(MPICHECK)
+	mpifort -c $(MAIN)
 
 $(DATA) : $(TARGET) $(PARAM)
 	./$(TARGET)
