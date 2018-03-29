@@ -1,5 +1,4 @@
-module MPI_Check
-        include 'mpif.h'
+module CheckMPI
         contains
                 subroutine Check(M,num_proc,myrank)
                         integer, intent(in) :: M, num_proc, myrank
@@ -10,4 +9,4 @@ module MPI_Check
                                 STOP
                         end if
                 end subroutine
-end module MPI_Check
+end module CheckMPI
