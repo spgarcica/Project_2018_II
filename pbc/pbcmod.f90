@@ -1,54 +1,26 @@
 MODULE pbcmod
    contains
-        !--------------------------------------------------------------------------!
-        ! Function to correct the pbc subroutine when the length the atom has      !
-        ! moved is higher than L.                                                  !
-        !--------------------------------------------------------------------------!
-        real function PBC_Cor(Val,Siz)
-                implicit none
-                real, intent(in) :: Val, Siz
-                PBC_Cor = abs(aint(Val/Siz)) * Siz
-        end function PBC_Cor
+        subroutine pbc(Pos_mat,partition,L)
+        implicit none
+        integer, intent(inout)  :: partition
+        real, dimension(partition,3), intent(inout) :: Pos_mat
+        real, intent(in) :: L
+        integer :: ii, jj
 
-        !--------------------------------------------------------------------------!
-        !         Subroutine that applies the periodic boundary conditions         !
-        !--------------------------------------------------------------------------!
-        subroutine pbc(coord, N, L) !No sé si debo poner el out coord2
-                implicit none
-                real, dimension(N,3), intent(inout) :: coord
-                real, intent(in) :: L
-                integer, intent(in) :: N
-                integer :: jN
-                real, dimension(N) :: x, y, z
-
-                !Separa la matriz en 3 vectores
-                x = coord(:,1)
-                y = coord(:,2)
-                z = coord(:,3)
-
-                do jN = 1, N
-                        if (x(jN) .lt. 0) then
-                                x(jN) = x(jN) + PBC_Cor(x(jN),L) + L
-                        else if (x(jN) .gt. L) then
-                                x(jN) = x(jN) - PBC_Cor(x(jN),L)
-                        end if
-                        
-                        if (y(jN) .lt. 0) then
-                                y(jN) = y(jN) + PBC_Cor(y(jN),L) + L
-                        else if (y(jN) .gt. L) then
-                                y(jN) = y(jN) - PBC_Cor(y(jN),L)
-                        end if
-
-                        if (z(jN) .lt. 0) then
-                                z(jN) = z(jN) + PBC_Cor(z(jN),L) + L
-                        else if (z(jN) .gt. L) then
-                               z(jN) = z(jN) - PBC_Cor(z(jN),L)
+        do ii=1, partition
+                do jj=1,3
+                        if (Pos_mat(ii,jj) .lt. 0) then
+                                  Pos_mat(ii,jj) = Pos_mat(ii,jj) + PBC_Cor(Pos_mat(ii,jj),L) + L
+                        else if (Pos_mat(ii,jj) .gt. L) then
+                                  Pos_mat(ii,jj) = Pos_mat(ii,jj) - PBC_Cor(Pos_mat(ii,jj),L)
                         end if
                 end do
-
-                !Ponemos las condiciones 
-                coord(:,1) = x
-                coord(:,2) = y
-                coord(:,3) = z
+        end do
         end subroutine
+
+        real function PBC_Cor(Val,Siz)
+        implicit none
+        real, intent(in) :: Val, Siz
+        PBC_Cor = abs(aint(Val/Siz))*Siz
+        end function PBC_Cor
 END MODULE pbcmod
