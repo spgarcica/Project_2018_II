@@ -52,7 +52,7 @@ $(TARGET).o : $(CODE)
 	mpifort -c $(MAIN)
 
 $(DATA) : $(TARGET) $(PARAM)
-	./$(TARGET)
+	mpirun -n 4 ./$(TARGET)
 
 $(FIGURE_SCRIPT_PYTHON) : $(DATA_SCRIPT_PYTHON) $(SCRIPT_PYTHON)
 	python2 $(SCRIPT_PYTHON)
