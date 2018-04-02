@@ -19,7 +19,8 @@ program MMDyn
         
         ! MPI values !
         integer :: ierror, num_proc, myrank, status(MPI_STATUS_SIZE), N_Slice
-        integer :: M, N_atoms, N_Interactions, Seed, NSteps, NSta, ii, jj
+        integer :: M, N_atoms, Seed, NSteps, NSta, ii, jj
+        integer(8) :: N_Interactions
         integer, dimension(:,:), allocatable :: LJ_IntMat
         real :: Density, Cutoff, L_Box, L_Intend, dt, A_box, Sigma, Temp, Pot_En, Pressure
         real :: E_Constant, S_Constant, M_Constant, C_U, A_Prob, CO_R, dr
@@ -66,7 +67,8 @@ program MMDyn
         call Regroup(ierror,myrank,num_proc,N_Slice,3,Position_mat,Position_mat_Total)
         call Regroup(ierror,myrank,num_proc,N_Slice,3,Velocity_mat,Velocity_mat_Total)
         ! Initialization of LJ !
-        call Interactions_Init(N_Atoms,LJ_IntMat,N_Interactions)
+        call Interactions_Init(N_Atoms,LJ_IntMat,N_Interactions,myrank)
+        call MPI_BARRIER(MPI_COMM_WORLD,ierror)
         call LJ_force(N_atoms,N_Interactions,myrank,num_proc,LJ_IntMat,Position_mat_Total,&
                 Force_Mat,Pot_En,Cutoff,C_U,Pressure,L_Intend)
         !call LJ_force(N_atoms,Position_mat_Total,Force_Mat_Total,Pot_En,Cutoff,C_U,Pressure,L_Intend)

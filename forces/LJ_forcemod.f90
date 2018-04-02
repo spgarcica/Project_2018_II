@@ -8,12 +8,13 @@ contains
         subroutine LJ_force(N_atoms,N_Interactions,myrank,num_proc,LJ_IntMat,Position_mat, &
                         Force_Mat,Pot_En,Cutoff,C_U,Pressure,L_Intend)
                implicit none
-               integer, intent(in) :: N_atoms, N_Interactions, myrank, num_proc
+               integer, intent(in) :: N_atoms, myrank, num_proc
+               integer(8) :: N_Interactions
                integer, dimension(N_Interactions,2), intent(in) :: LJ_IntMat
                real, dimension(N_atoms,3), intent(in) :: Position_mat
                real, intent(out) :: Pot_En
                real, dimension(N_atoms,3), intent(out) :: Force_Mat
-               integer :: iii, jjj, kkk, lll, Assigner, A_From, A_Until
+               integer(8) :: iii, jjj, kkk, lll, Assigner, A_From, A_Until
                real :: Cutoff2, Distance_2, Distance_4, Distance_6, Distance_8, Distance_12, Distance_14, Dist_Aux
                real, dimension(3) :: Distance_vec, Force_vec
                real :: Cutoff, C_U, Pressure, L_Intend
@@ -56,12 +57,12 @@ contains
                end do
         end subroutine
         
-        subroutine Interactions_Init(N_Atoms,LJ_IntMat,N_Interactions)
+        subroutine Interactions_Init(N_Atoms,LJ_IntMat,N_Interactions,myrank)
                 implicit none
-                integer, intent(in) :: N_Atoms
+                integer, intent(in) :: N_Atoms, myrank
                 integer, dimension(:,:), allocatable, intent(out) :: LJ_IntMat
-                integer, intent(out) :: N_Interactions
-                integer :: Accumulator, ii, jj
+                integer(8), intent(out) :: N_Interactions
+                integer(8) :: Accumulator, ii, jj
 
                 Accumulator = 0
 
@@ -73,7 +74,7 @@ contains
                 N_Interactions = Accumulator
 
                 allocate(LJ_IntMat(Accumulator,2))
-
+                
                 Accumulator = 1
                
                 do ii=1, N_Atoms
@@ -82,6 +83,6 @@ contains
                                 LJ_IntMat(Accumulator,2) = jj
                                 Accumulator = Accumulator + 1
                         end do
-                end do
+              end do
         end subroutine
 end module LJ_forcemod
