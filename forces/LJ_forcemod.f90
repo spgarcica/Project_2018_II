@@ -23,13 +23,14 @@ contains
                Pot_En = 0.
                Cutoff2 = Cutoff**2
                Pressure = 0
+               N_Interactions = (N_Atoms*(N_Atoms-1))/2
                Assigner = N_Interactions/num_proc
                A_From = (myrank*Assigner)+1
                A_Until = A_From + Assigner - 1
 
                do lll=A_From, A_Until
-                       iii = LJ_IntMat(lll,1)
-                       jjj = LJ_IntMat(lll,2)
+                       ! Determinig particle couple of interaction lll !
+                       call Particle_Couple(N_Atoms,lll,iii,jjj)
                        Distance_vec = Position_mat(iii,:)-Position_mat(jjj,:)
                        Distance_2 = Distance_vec(1) ** 2 + Distance_vec(2) ** 2 + Distance_vec(3) ** 2
                        ! If the distance is too high, minumum image conditions are imposed !
@@ -57,32 +58,27 @@ contains
                end do
         end subroutine
         
-        subroutine Interactions_Init(N_Atoms,LJ_IntMat,N_Interactions,myrank)
+        subroutine Particle_Couple(N_Atoms,lll,iii,jjj)
                 implicit none
-                integer, intent(in) :: N_Atoms, myrank
-                integer, dimension(:,:), allocatable, intent(out) :: LJ_IntMat
-                integer(8), intent(out) :: N_Interactions
-                integer(8) :: Accumulator, ii, jj
-
-                Accumulator = 0
-
-                ! Calculating the number of pair interactions !
-                do ii=1, N_Atoms-1
-                        Accumulator = Accumulator + ii
-                end do
-
-                N_Interactions = Accumulator
-
-                allocate(LJ_IntMat(Accumulator,2))
+                integer, intent(in) :: N_Atoms, lll
+                integer, intent(inout) :: iii, jjj
+                integer :: incr, counter
+                integer(8) :: Accumulator
                 
-                Accumulator = 1
-               
-                do ii=1, N_Atoms
-                        do jj=ii+1, N_Atoms
-                                LJ_IntMat(Accumulator,1) = ii
-                                LJ_IntMat(Accumulator,2) = jj
-                                Accumulator = Accumulator + 1
-                        end do
-              end do
+                iii = 0
+                jjj = 0
+                Accumulator = 0
+                counter = 0
+                incr = N_Atoms-1
+                
+                do while (iii == 0 .and. jjj == 0)
+                        Accumulator = Accumulator + incr
+                        counter = counter + 1
+                        if (lll <= Accumulator) then
+                                iii = counter
+                                jjj = iii + lll - Accumulator + incr
+                        end if
+                        incr = incr - 1
+                end do
         end subroutine
 end module LJ_forcemod
