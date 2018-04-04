@@ -28,7 +28,7 @@ program MMDyn
         ! MPI values !
         real, dimension(:,:), allocatable :: Position_mat_Total, Velocity_mat_Total, Force_Mat_Total
         real, dimension(:,:), allocatable :: NewForce_Mat_Total
-        real, dimension(3) :: partial_sum
+        real, dimension(3) :: partial_sum, total_sum
         real, dimension(2) :: Time
         character(3) :: Integrator
 
@@ -61,14 +61,29 @@ program MMDyn
                 print *, 'Initializing velocities...'
         end if
         ! Generation of random initial velocities !
-        call Initial_Velocity(N_atoms,num_proc,Sigma,Velocity_mat,partial_sum,Force_mat)
+        call Initial_Velocity(N_atoms,num_proc,Sigma,Velocity_mat,partial_sum)
         ! Barrier !
         call MPI_BARRIER(MPI_COMM_WORLD,ierror)
         call Regroup(ierror,myrank,num_proc,N_Slice,3,Position_mat,Position_mat_Total)
         call Regroup(ierror,myrank,num_proc,N_Slice,3,Velocity_mat,Velocity_mat_Total)
+        ! Remove velocity center of mass !
+        do ii=1, 3
+                call MPI_Reduce(partial_sum(i), total_sum(i), 1, MPI_REAL, MPI_SUM, 0, MPI_COMM_WORLD, ierror)
+        end do
+        call MPI_BCAST(total_sum,3,MPI_REAL,0,MPI_COMM_WORLD,ierror)
+        total_sum=total_sum/N_atoms
+        do ii=1, N_atoms
+                velocity_mat_total(i,:) = Velocity_mat_total(i,:) - total_sum(:)
+        end do
+
         ! Initialization of LJ !
-        call Interactions_Init(N_Atoms,LJ_IntMat,N_Interactions,myrank)
-        call MPI_BARRIER(MPI_COMM_WORLD,ierror)
+        N_Interactions = 0
+        do ii=1, N_atoms
+                do jj=ii+1, N_atoms
+                        N_Interactions = N_Interactions + 1
+                end do
+        end do
+        allocate(Force_Mat(N_atoms,3))
         call LJ_force(N_atoms,N_Interactions,myrank,num_proc,LJ_IntMat,Position_mat_Total,&
                 Force_Mat,Pot_En,Cutoff,C_U,Pressure,L_Intend)
         !call LJ_force(N_atoms,Position_mat_Total,Force_Mat_Total,Pot_En,Cutoff,C_U,Pressure,L_Intend)
