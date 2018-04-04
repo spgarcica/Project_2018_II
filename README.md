@@ -25,6 +25,8 @@ sudo apt-get install make
 ```
 sudo pacman -S make
 ```
+
+For the parallel version you will need openmpi libraries of a version > 1.7.
 ### How to download the code
 If you have an installation of git in your computer you can clone this repository using the clone command:
 ```
