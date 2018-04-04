@@ -80,7 +80,7 @@ The xyz coordinates are stored at **traj.xyz** file.
 There is a template for a dynamic with Helium at 300K and 1atm at template folder.
 
 ## Authors
-* Alejandro C. - *Initial geometry and makefile*
+* Alejandro C. - *Initial state and makefile*
 * Cristian P. - *Integrators and Andersen implementation*
 * Erika F. - *GDR implementation and PBC*
 * Zazo M. - *Statistical analysis and plotting*
