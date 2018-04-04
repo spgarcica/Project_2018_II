@@ -28,7 +28,7 @@ program MMDyn
         ! MPI values !
         real, dimension(:,:), allocatable :: Position_mat_Total, Velocity_mat_Total, Force_Mat_Total
         real, dimension(:,:), allocatable :: NewForce_Mat_Total
-        real, dimension(3) :: partial_sum, total_sum
+        real, dimension(3) :: partial_sum
         real, dimension(2) :: Time
         character(3) :: Integrator
 
@@ -61,29 +61,14 @@ program MMDyn
                 print *, 'Initializing velocities...'
         end if
         ! Generation of random initial velocities !
-        call Initial_Velocity(N_atoms,num_proc,Sigma,Velocity_mat,partial_sum)
+        call Initial_Velocity(N_atoms,num_proc,Sigma,Velocity_mat,partial_sum,Force_mat)
         ! Barrier !
         call MPI_BARRIER(MPI_COMM_WORLD,ierror)
         call Regroup(ierror,myrank,num_proc,N_Slice,3,Position_mat,Position_mat_Total)
         call Regroup(ierror,myrank,num_proc,N_Slice,3,Velocity_mat,Velocity_mat_Total)
-        ! Remove velocity center of mass !
-        do ii=1, 3
-                call MPI_Reduce(partial_sum(i), total_sum(i), 1, MPI_REAL, MPI_SUM, 0, MPI_COMM_WORLD, ierror)
-        end do
-        call MPI_BCAST(total_sum,3,MPI_REAL,0,MPI_COMM_WORLD,ierror)
-        total_sum=total_sum/N_atoms
-        do ii=1, N_atoms
-                velocity_mat_total(i,:) = Velocity_mat_total(i,:) - total_sum(:)
-        end do
-
         ! Initialization of LJ !
-        N_Interactions = 0
-        do ii=1, N_atoms
-                do jj=ii+1, N_atoms
-                        N_Interactions = N_Interactions + 1
-                end do
-        end do
-        allocate(Force_Mat(N_atoms,3))
+        call Interactions_Init(N_Atoms,LJ_IntMat,N_Interactions,myrank)
+        call MPI_BARRIER(MPI_COMM_WORLD,ierror)
         call LJ_force(N_atoms,N_Interactions,myrank,num_proc,LJ_IntMat,Position_mat_Total,&
                 Force_Mat,Pot_En,Cutoff,C_U,Pressure,L_Intend)
         !call LJ_force(N_atoms,Position_mat_Total,Force_Mat_Total,Pot_En,Cutoff,C_U,Pressure,L_Intend)
@@ -94,8 +79,8 @@ program MMDyn
                         Force_Mat,Force_Mat_Total,Integrator,myrank,num_proc,N_Slice,ierror)
         !Extracting the time taken to perform the dynamics !
         call cpu_time(Time(2))
-        call MPI_BARRIER(MPI_COMM_WORLD,ierror)
         print *, 'CORE NUMBER', myrank, 'REPORTING  ALL WORK DONE IN:', Time(2)-Time(1), 's'
+        call MPI_BARRIER(MPI_COMM_WORLD,ierror)
         call MPI_FINALIZE(ierror)
         contains
         !---------------------------------------------------------------------------------------------------------!
@@ -139,6 +124,7 @@ program MMDyn
                 integer, intent(in) :: N_atoms, NSteps, NSta
                 ! MPI Values !
                 integer, intent(in) :: myrank, num_proc, N_Slice, ierror
+                real, dimension(5) :: RIPTIME
                 integer(8) :: HistCount
                 character(3), intent(in) :: Integrator
                 real, dimension(N_atoms/num_proc,3), intent(inout) :: Position_mat, Velocity_mat
@@ -153,6 +139,7 @@ program MMDyn
                 real, dimension(:), allocatable :: HistProfile
                 procedure (), pointer :: Int_Type => null()
 
+                open(unit=22, file='RIPTIME.dat', form='formatted', status='unknown')
                 Temperature = 0
                 Vel_Aver = 0.
 
@@ -167,10 +154,14 @@ program MMDyn
                 if ( myrank == 0) then
                         print *, 'Calculating initialization steps...'
                 end if
+                call cpu_time(RIPTIME(1))
+                write(22,*) RIPTIME(1)
                 do Counter1=1, NSta
                         ! First Andersen with fixed 0.1 probability to stabilize the system !
                         call Int_Type
                 end do
+                call cpu_time(RIPTIME(2))
+                write(22,*) RIPTIME(2)
 
                 ! Resetting the momentum after the stabilization Andersen !
                 do Counter1=1, 3
@@ -197,6 +188,8 @@ program MMDyn
                         print *, 'Calculating the dynamic...'
                 end if
 
+                call cpu_time(RIPTIME(3))
+                write(22,*) RIPTIME(3)
                 do Counter1=1, NSteps
                         call Int_Type
 
@@ -235,6 +228,8 @@ program MMDyn
                                 end do
                         end if
                 end do
+                call cpu_time(RIPTIME(4))
+                write(22,*) RIPTIME(4)
                 ! Generation of a Gaussian curve !
                 call gauss(Temp*(E_constant/Boltz),N_atoms,NSteps)
                 
@@ -255,6 +250,8 @@ program MMDyn
                         close(26)
                         close(27)
                 end if
+                call cpu_time(RIPTIME(5))
+                write(22,*) RIPTIME(5)
 
                 if ( myrank == 0) then
                         Vel_Aver = Vel_Aver/(N_atoms*NSteps)
@@ -264,6 +261,7 @@ program MMDyn
                         ! The standard deviation is square root of T !
                         print *, 'Velocity Sdeviation:', SD_Value
                 end if
+                close(22)
         end subroutine
 
         !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
