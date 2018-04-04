@@ -60,8 +60,8 @@ contains
         
         subroutine Particle_Couple(N_Atoms,lll,iii,jjj)
                 implicit none
-                integer, intent(in) :: N_Atoms, lll
-                integer, intent(inout) :: iii, jjj
+                integer, intent(in) :: N_Atoms
+                integer(8), intent(inout) :: iii, jjj, lll
                 integer :: incr, counter
                 integer(8) :: Accumulator
                 
